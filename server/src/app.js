@@ -12,7 +12,11 @@ const app = express();
 app.set("trust proxy", 1);
 
 app.use(helmet());
-app.use(cors({ origin: (process.env.CLIENT_URL || "http://localhost:5173").split(",") }));
+// Browsers send the origin without a trailing slash, so normalise whatever was pasted into CLIENT_URL
+const allowedOrigins = (process.env.CLIENT_URL || "http://localhost:5173")
+  .split(",")
+  .map((url) => url.trim().replace(/\/+$/, ""));
+app.use(cors({ origin: allowedOrigins }));
 app.use(express.json({ limit: "1mb" }));
 
 app.use(
