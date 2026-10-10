@@ -1,0 +1,103 @@
+@import "tailwindcss";
+
+/* dark: utilities follow the .dark class (set by ThemeProvider), not just the OS setting */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Colour tokens. Components use these names (bg-paper, text-ink, border-line...)
+   so light and dark mode only need to be defined once, here. */
+:root {
+  color-scheme: light;
+  --paper: #f6f4ef;
+  --card: #fffdf9;
+  --muted: #efebe3;
+  --ink: #1c1b19;
+  --ink-2: #57534e;
+  --ink-3: #8b857b;
+  --line: #e4ded3;
+  --line-strong: #cbc3b5;
+  --accent: #c8402c;
+  --highlight: #fde68a;
+  --good: #2f7d4f;
+  --mid: #b07414;
+  --low: #c8402c;
+}
+
+.dark {
+  color-scheme: dark;
+  --paper: #141311;
+  --card: #1b1a17;
+  --muted: #24221e;
+  --ink: #ece8df;
+  --ink-2: #a8a298;
+  --ink-3: #7a746a;
+  --line: #2d2a25;
+  --line-strong: #3f3b34;
+  --accent: #ef6a4f;
+  --highlight: rgb(250 204 21 / 0.28);
+  --good: #63c08a;
+  --mid: #e2a83f;
+  --low: #ef6a4f;
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-card: var(--card);
+  --color-muted: var(--muted);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-accent: var(--accent);
+  --color-highlight: var(--highlight);
+  --color-good: var(--good);
+  --color-mid: var(--mid);
+  --color-low: var(--low);
+}
+
+@theme {
+  --font-sans: "Geist", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-serif: "Instrument Serif", ui-serif, Georgia, serif;
+  --font-mono: "Geist Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --font-hand: "Caveat", "Comic Sans MS", cursive;
+}
+
+body {
+  @apply bg-paper font-sans text-ink antialiased;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+::selection {
+  background: var(--highlight);
+  color: var(--ink);
+}
+
+@layer components {
+  .sheet {
+    @apply rounded-md border border-line bg-card;
+  }
+  .eyebrow {
+    @apply font-mono text-[11px] font-medium tracking-[0.14em] text-ink-3 uppercase;
+  }
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-md bg-ink px-5 py-2.5 text-sm font-medium text-paper transition hover:opacity-85 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent disabled:cursor-not-allowed disabled:opacity-50;
+  }
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-md border border-line-strong px-5 py-2.5 text-sm font-medium text-ink transition hover:bg-muted disabled:opacity-50;
+  }
+  .input {
+    @apply w-full rounded-md border border-line-strong bg-card px-3.5 py-2.5 text-sm text-ink placeholder:text-ink-3 focus:border-ink focus:outline-none;
+  }
+  .label {
+    @apply mb-1.5 block text-sm font-medium text-ink;
+  }
+  .link {
+    @apply underline decoration-line-strong underline-offset-4 transition hover:decoration-accent;
+  }
+  /* Highlighter-pen mark used for matched keywords */
+  .marker {
+    background: linear-gradient(104deg, transparent 0.6%, var(--highlight) 2.4%, var(--highlight) 97%, transparent 99%);
+    color: var(--ink);
+    @apply rounded-[3px] px-1 -mx-0.5 box-decoration-clone;
+  }
+}
